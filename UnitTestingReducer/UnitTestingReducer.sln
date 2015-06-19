@@ -17,11 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAssembly", "TestAssembl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{045F2E0C-21F4-4358-8BE4-D39C05D2E64A}"
 	ProjectSection(SolutionItems) = preProject
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diff2CodeEntityName", "Diff2CodeEntityName\Diff2CodeEntityName.csproj", "{D5356EAD-FB5C-4556-A6C5-FB80ACF38CC1}"
-EndProject
 		TestRunner.bat = TestRunner.bat
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diff2CodeEntityName", "Diff2CodeEntityName\Diff2CodeEntityName.csproj", "{D5356EAD-FB5C-4556-A6C5-FB80ACF38CC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,8 +1,8 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Extensions
+﻿namespace Diff2CodeEntityName
 {
-    static class StringExtensions
+    using System.Text.RegularExpressions;
+
+    internal static class StringExtensions
     {
         public static bool LooksLikeNamespaceDefinition(this string line)
         {
@@ -18,7 +18,7 @@ namespace Extensions
             //  class' name as \w+
             //  possible spaces as \s*
             //  possible separator for inheritance list as :?
-            
+
             return Regex.IsMatch(line, @"\s*class\s+\w+\s*:?");
         }
 
@@ -33,7 +33,7 @@ namespace Extensions
             //  any symbols as .* 
             //  closing brace as \)
 
-            return Regex.IsMatch(line, @"\w+\s+\w+\s*\(.*\)") && !line.Contains("await"); 
+            return Regex.IsMatch(line, @"\w+\s+\w+\s*\(.*\)") && !line.Contains("await");
         }
     }
 }

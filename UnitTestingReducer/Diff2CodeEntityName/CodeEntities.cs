@@ -1,13 +1,17 @@
-﻿using System.Collections.Generic;
-namespace Diff2CodeEntityName
+﻿namespace Diff2CodeEntityName
 {
-    class CodeEntity
+    using System.Collections.Generic;
+
+    internal class CodeEntity
     {
         public enum CodeEntityType
         {
             Root,
+
             Namespace,
+
             Class,
+
             Method
         };
 
@@ -17,7 +21,8 @@ namespace Diff2CodeEntityName
             Childs = new List<CodeEntity>();
         }
 
-        public CodeEntity(CodeEntityType type) : this()
+        public CodeEntity(CodeEntityType type)
+            : this()
         {
             Type = type;
         }

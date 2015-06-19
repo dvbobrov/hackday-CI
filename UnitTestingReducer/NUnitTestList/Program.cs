@@ -17,11 +17,11 @@
                 return;
             }
 
-            foreach (var dll in args)
+            foreach (string dll in args)
             {
                 var assembly = Assembly.LoadFile(Path.GetFullPath(dll));
                 var testMethods = assembly.GetTypes().SelectMany(a => a.GetMethods()).Where(HasTestAttribute);
-                foreach (var method in testMethods)
+                foreach (MethodInfo method in testMethods)
                 {
                     Console.WriteLine(method.DeclaringType.FullName + "." + method.Name);
                 }

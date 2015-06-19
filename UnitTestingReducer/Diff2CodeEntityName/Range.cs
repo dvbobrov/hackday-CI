@@ -1,14 +1,11 @@
 ﻿//This code was snatched from http://stackoverflow.com/questions/5343006/is-there-a-c-sharp-type-for-representing-an-integer-range
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Diff2CodeEntityName
 {
-    public class Range<T> where T : IComparable<T>
+    using System;
+
+    public class Range<T>
+        where T : IComparable<T>
     {
         /// <summary>
         /// Minimum value of the range
@@ -24,13 +21,19 @@ namespace Diff2CodeEntityName
         /// Presents the Range in readable format
         /// </summary>
         /// <returns>String representation of the Range</returns>
-        public override string ToString() { return String.Format("[{0} - {1}]", Minimum, Maximum); }
+        public override string ToString()
+        {
+            return String.Format("[{0} - {1}]", Minimum, Maximum);
+        }
 
         /// <summary>
         /// Determines if the range is valid
         /// </summary>
         /// <returns>True if range is valid, else false</returns>
-        public Boolean IsValid() { return Minimum.CompareTo(Maximum) <= 0; }
+        public Boolean IsValid()
+        {
+            return Minimum.CompareTo(Maximum) <= 0;
+        }
 
         /// <summary>
         /// Determines if the provided value is inside the range
@@ -49,7 +52,8 @@ namespace Diff2CodeEntityName
         /// <returns>True if range is inclusive, else false</returns>
         public Boolean IsInsideRange(Range<T> Range)
         {
-            return this.IsValid() && Range.IsValid() && Range.ContainsValue(this.Minimum) && Range.ContainsValue(this.Maximum);
+            return this.IsValid() && Range.IsValid() && Range.ContainsValue(this.Minimum) &&
+                   Range.ContainsValue(this.Maximum);
         }
 
         /// <summary>
@@ -59,7 +63,8 @@ namespace Diff2CodeEntityName
         /// <returns>True if range is inside, else false</returns>
         public Boolean ContainsRange(Range<T> Range)
         {
-            return this.IsValid() && Range.IsValid() && this.ContainsValue(Range.Minimum) && this.ContainsValue(Range.Maximum);
+            return this.IsValid() && Range.IsValid() && this.ContainsValue(Range.Minimum) &&
+                   this.ContainsValue(Range.Maximum);
         }
     }
 }
