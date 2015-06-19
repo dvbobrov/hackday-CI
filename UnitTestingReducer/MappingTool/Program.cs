@@ -14,7 +14,7 @@
             _mainMap = new Dictionary<string, List<string>>();
 
             DirectoryInfo directory = new DirectoryInfo(@"C:\HackDay\Input");
-            foreach (var file in directory.EnumerateFiles())
+            foreach (FileInfo file in directory.EnumerateFiles())
             {
                 //Console.WriteLine(file.FullName);
 
@@ -41,46 +41,46 @@
 
         private static void ProcessCoverReport(FileInfo inputFile)
         {
-            StreamReader str = new StreamReader(inputFile.FullName);
-            System.Xml.Serialization.XmlSerializer xSerializer =
-                new System.Xml.Serialization.XmlSerializer(typeof(coverage));
-
-            coverage cov = (coverage)xSerializer.Deserialize(str);
-
-            if (cov != null)
+            using (var str = new StreamReader(inputFile.FullName))
             {
-                string testName = inputFile.Name.TrimEnd(".xml".ToCharArray());
+                System.Xml.Serialization.XmlSerializer xSerializer =
+                    new System.Xml.Serialization.XmlSerializer(typeof(coverage));
 
-                foreach (var module in cov.module)
+                var cov = (coverage)xSerializer.Deserialize(str);
+
+                if (cov != null)
                 {
-                    foreach (var @class in module.@class)
+                    string testName = inputFile.Name.TrimEnd(".xml".ToCharArray());
+
+                    foreach (coverageModule module in cov.module)
                     {
-                        foreach (var method in @class.method)
+                        foreach (coverageModuleClass @class in module.@class)
                         {
-                            if (method.instrumented == "true")
+                            foreach (coverageModuleClassMethod method in @class.method)
                             {
-                                string methodName = @class.name + "." + method.name;
-
-                                Console.WriteLine(methodName);
-
-                                if (_mainMap.ContainsKey(methodName))
+                                if (method.instrumented == "true")
                                 {
-                                    if (!_mainMap[methodName].Contains(testName))
+                                    string methodName = @class.name + "." + method.name;
+
+                                    Console.WriteLine(methodName);
+
+                                    if (_mainMap.ContainsKey(methodName))
                                     {
-                                        _mainMap[methodName].Add(testName);
+                                        if (!_mainMap[methodName].Contains(testName))
+                                        {
+                                            _mainMap[methodName].Add(testName);
+                                        }
                                     }
-                                }
-                                else
-                                {
-                                    _mainMap[methodName] = new List<string> { testName };
+                                    else
+                                    {
+                                        _mainMap[methodName] = new List<string> { testName };
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-
-            str.Close();
         }
     }
 }

@@ -74,14 +74,14 @@
                 }
             }
 
-            StreamWriter writer = new StreamWriter(_outputPath);
-
-            foreach (string test in tests)
+            using (StreamWriter writer = new StreamWriter(_outputPath))
             {
-                writer.WriteLine(test);
+                foreach (string test in tests)
+                {
+                    writer.WriteLine(test);
+                }
             }
 
-            writer.Close();
             Console.Out.WriteLine("{0} successfully created");
         }
 
@@ -99,13 +99,13 @@
             }
 
             HashSet<string> ret = new HashSet<string>();
-
-            StreamReader reader = new StreamReader(pathToList);
-            while (!reader.EndOfStream)
+            using (var reader = new StreamReader(pathToList))
             {
-                ret.Add(reader.ReadLine());
+                while (!reader.EndOfStream)
+                {
+                    ret.Add(reader.ReadLine());
+                }
             }
-            reader.Close();
 
             return ret.ToList();
         }
@@ -129,7 +129,7 @@
                 return null;
             }
 
-            Dictionary<string, List<string>> ret = new Dictionary<string, List<string>>();
+            var ret = new Dictionary<string, List<string>>();
 
             try
             {
