@@ -36,7 +36,7 @@ namespace Diff2CodeEntityName
 
             p.WaitForExit();
 
-            // continue
+            string[] changed = GetChangedEntryNames(targetFile);
         }
 
         static void Parse(string plainTextLine, ref FileDiff targetFile)
@@ -46,12 +46,12 @@ namespace Diff2CodeEntityName
                 return;
             }
 
-            if (plainTextLine.StartsWith("comparing files", true, System.Globalization.CultureInfo.InvariantCulture))
+            if (plainTextLine.StartsWith("Comparing files", true, System.Globalization.CultureInfo.InvariantCulture))
             {
-                string[] separators = { "comparing files ", " and " };
+                string[] separators = { " and " };
                 string[] parts = plainTextLine.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
-                targetFile.FileName = parts[0]; // CHECK INDEX BEFORE
+                targetFile.FileName = parts[0].Replace("Comparing files ", ""); // CHECK INDEX BEFORE
 
             }
             else if (Regex.IsMatch(plainTextLine, @"\s*\d+:")) // e.g. " 13: "
@@ -72,36 +72,45 @@ namespace Diff2CodeEntityName
             }
         }
 
-        static string GetChangedEntryName(FileDiff targetFile)
+        static string[] GetChangedEntryNames(FileDiff targetFile)
         {
             using (StreamReader reader = new StreamReader(targetFile.FileName))
             {
                 uint bracesCounter = 0;
 
                 CodeEntity root = new CodeEntity(CodeEntity.CodeEntityType.Root);
+                CodeEntity.CodeEntityType currentLevel = CodeEntity.CodeEntityType.Root;
 
                 do
                 {
-                    string line = reader.ReadLine();
+                    string line = reader.ReadLine().Trim();
 
-                    if(line.LooksLikeNamespaceDefinition())
+                    if (line.LooksLikeNamespaceDefinition())
                     {
-
+                        int a = 1;
                     }
-                    else if(line.LooksLikeClassDefinition())
+                    else if (line.LooksLikeClassDefinition())
                     {
-
+                        int a = 1;
                     }
-                    else if(line.LooksLikeMethodDefinition())
+                    else if (line.LooksLikeMethodDefinition())
                     {
-
+                        int a = 1;
+                    }
+                    else if(line.Contains("{"))
+                    {
+                        bracesCounter++;
+                    }
+                    else if(line.Contains("}"))
+                    {
+                        bracesCounter--;
                     }
 
                 } while (!reader.EndOfStream);
 
             }
 
-            return "";
+            return new[] { "", "" };
         }
     }
 
