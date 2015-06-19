@@ -1,4 +1,5 @@
-﻿namespace NUnitTestList {
+﻿namespace NUnitTestList
+{
     using System;
     using System.IO;
     using System.Linq;
@@ -6,8 +7,10 @@
 
     using NUnit.Framework;
 
-    public class Program {
-        public static void Main(string[] args) {
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
             if (args.Length < 1)
             {
                 Console.Error.WriteLine("usage: NUnitTestList DLL1 DLL2 ...");
