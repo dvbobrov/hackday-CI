@@ -1,31 +1,33 @@
 ﻿using System.Collections.Generic;
 namespace Diff2CodeEntityName
 {
-    abstract class CodeEntity
+    class CodeEntity
     {
+        public enum CodeEntityType
+        {
+            Root,
+            Namespace,
+            Class,
+            Method
+        };
+
         public CodeEntity()
         {
             Scope = new Range<uint>();
+            Childs = new List<CodeEntity>();
         }
 
-        public virtual Range<uint> Scope { get; set; }
+        public CodeEntity(CodeEntityType type) : this()
+        {
+            Type = type;
+        }
 
-        public virtual string FullName { get; set; }
-    }
+        public CodeEntityType Type { get; set; }
 
+        public List<CodeEntity> Childs { get; set; }
 
-    class Namespace
-    {
-        public List<Class> Classes { get; set; }
-    }
+        public Range<uint> Scope { get; set; }
 
-    class Class
-    {
-        public List<Method> Methods { get; set; }
-    }
-
-    class Method : CodeEntity
-    {
-
+        public string FullName { get; set; }
     }
 }

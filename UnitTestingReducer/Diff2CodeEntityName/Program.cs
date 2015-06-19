@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Extensions;
 
 namespace Diff2CodeEntityName
 {
@@ -52,11 +54,11 @@ namespace Diff2CodeEntityName
                 targetFile.FileName = parts[0]; // CHECK INDEX BEFORE
 
             }
-            else if (Regex.IsMatch(plainTextLine, @"\s{0,}\d{1,}:")) // e.g. " 13: "
+            else if (Regex.IsMatch(plainTextLine, @"\s*\d+:")) // e.g. " 13: "
             {
                 try
                 {
-                    uint lineNumber = UInt32.Parse(Regex.Match(plainTextLine, @"\d{1,}:").Value.Replace(":", "")); // e.g. "13:"
+                    uint lineNumber = UInt32.Parse(Regex.Match(plainTextLine, @"\d+:").Value.Replace(":", "")); // e.g. "13:" one digit at least and one colon
 
                     if (!targetFile.Lines.Contains(lineNumber))
                     {
@@ -72,6 +74,32 @@ namespace Diff2CodeEntityName
 
         static string GetChangedEntryName(FileDiff targetFile)
         {
+            using (StreamReader reader = new StreamReader(targetFile.FileName))
+            {
+                uint bracesCounter = 0;
+
+                CodeEntity root = new CodeEntity(CodeEntity.CodeEntityType.Root);
+
+                do
+                {
+                    string line = reader.ReadLine();
+
+                    if(line.LooksLikeNamespaceDefinition())
+                    {
+
+                    }
+                    else if(line.LooksLikeClassDefinition())
+                    {
+
+                    }
+                    else if(line.LooksLikeMethodDefinition())
+                    {
+
+                    }
+
+                } while (!reader.EndOfStream);
+
+            }
 
             return "";
         }
