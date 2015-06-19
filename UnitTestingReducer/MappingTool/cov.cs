@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-namespace EmcHack1
+namespace MappingTool
 {
     using System.Xml.Serialization;
 

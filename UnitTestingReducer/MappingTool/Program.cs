@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.Xml.Serialization;
-
-namespace EmcHack1
+﻿namespace MappingTool
 {
-    class Program
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+
+    internal class Program
     {
         // Dictionary: < method_name, List<test_name> >
-        static Dictionary<string, List<string>> MainMap;
+        private static Dictionary<string, List<string>> _mainMap;
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            MainMap = new Dictionary<string, List<string>>();
+            _mainMap = new Dictionary<string, List<string>>();
 
             DirectoryInfo directory = new DirectoryInfo(@"C:\HackDay\Input");
             foreach (var file in directory.EnumerateFiles())
@@ -28,12 +23,12 @@ namespace EmcHack1
                 Console.WriteLine("==========");
             }
 
-            foreach (var key in MainMap.Keys)
+            foreach (var key in _mainMap.Keys)
             {
                 Console.WriteLine("Method: " + key);
                 Console.WriteLine("Tests:");
 
-                foreach (var method in MainMap[key])
+                foreach (var method in _mainMap[key])
                 {
                     Console.WriteLine("\t" + method);
                 }
@@ -44,10 +39,11 @@ namespace EmcHack1
             Console.ReadLine();
         }
 
-        static void ProcessCoverReport(FileInfo inputFile)
+        private static void ProcessCoverReport(FileInfo inputFile)
         {
             StreamReader str = new StreamReader(inputFile.FullName);
-            System.Xml.Serialization.XmlSerializer xSerializer = new System.Xml.Serialization.XmlSerializer(typeof(coverage));
+            System.Xml.Serialization.XmlSerializer xSerializer =
+                new System.Xml.Serialization.XmlSerializer(typeof(coverage));
 
             coverage cov = (coverage)xSerializer.Deserialize(str);
 
@@ -67,16 +63,16 @@ namespace EmcHack1
 
                                 Console.WriteLine(methodName);
 
-                                if (MainMap.ContainsKey(methodName))
+                                if (_mainMap.ContainsKey(methodName))
                                 {
-                                    if (!MainMap[methodName].Contains(testName))
+                                    if (!_mainMap[methodName].Contains(testName))
                                     {
-                                        MainMap[methodName].Add(testName);
+                                        _mainMap[methodName].Add(testName);
                                     }
                                 }
                                 else
                                 {
-                                    MainMap[methodName] = new List<string> { testName };
+                                    _mainMap[methodName] = new List<string> { testName };
                                 }
                             }
                         }
@@ -88,7 +84,6 @@ namespace EmcHack1
         }
     }
 }
-
 
 //StreamWriter writer = new StreamWriter("newresult.xml");
 //System.Xml.Serialization.XmlSerializer xSerializer = new System.Xml.Serialization.XmlSerializer(typeof(Coverage));
