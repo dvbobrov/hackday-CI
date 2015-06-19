@@ -1,4 +1,4 @@
-﻿//Tests for Foo (at all 8):
+﻿//Tests for Foo (at all 9):
 //    BarPositive
 //    BarNegative
 //    BarNegative
