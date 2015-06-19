@@ -20,5 +20,12 @@
             var foo = new Foo();
             Assert.AreEqual(-val, foo.Bar(val));
         }
+
+        [Test]
+        public void Baz()
+        {
+            var foo = new Foo();
+            Assert.AreEqual(5, foo.Baz(2, 3));
+        }
     }
 }
