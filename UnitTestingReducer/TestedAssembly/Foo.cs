@@ -11,6 +11,11 @@
 
             return x;
         }
+
+        public int Baz(int x, int y)
+        {
+            return x + y;
+        }
     }
 
     public class FooInt1

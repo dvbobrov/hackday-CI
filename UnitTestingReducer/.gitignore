@@ -1,2 +1,4 @@
 packages/
 Common/bin/
+*.suo
+*.boltdata/

@@ -3,6 +3,7 @@
 //    BarNegative
 //    BarNegative
 //    BarNegative
+//    Baz
 //    TestFoo_FooInt1_FooSimple1
 //    TestFoo_FooInt2_FooSimple1
 //    TestFoo_FooInt1_FooSimple2
@@ -144,5 +145,10 @@ namespace TestAssembly
             Assert.False(foosimple2.Return(false));
         }
 
+        public void Baz()
+        {
+            var foo = new Foo();
+            Assert.AreEqual(5, foo.Baz(2, 3));
+        }
     }
 }
