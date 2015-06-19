@@ -1,0 +1,19 @@
+<Methods>
+	<Method Name="M1">
+		<Test Name="T1" />
+		<Test Name="T2" />
+		<Test Name="T3" />
+	</Method>
+	<Method Name="M2">
+		<Test Name="T1" />
+		<Test Name="T50" />
+	</Method>
+	<Method Name="M3">
+		<Test Name="T1" />
+		<Test Name="T2" />
+		<Test Name="T3" />
+		<Test Name="T4" />
+		<Test Name="T5" />
+		<Test Name="T6" />
+	</Method>
+</Methods>

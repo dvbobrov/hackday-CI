@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTestList", "NUnitTestList\NUnitTestList.csproj", "{BE1FD3F0-0887-4AD6-B238-CE7DBE0C53B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapAnalyzer", "MapAnalyzer\MapAnalyzer.csproj", "{A4F48243-B924-420C-8633-3C7303F629D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{BE1FD3F0-0887-4AD6-B238-CE7DBE0C53B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE1FD3F0-0887-4AD6-B238-CE7DBE0C53B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE1FD3F0-0887-4AD6-B238-CE7DBE0C53B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4F48243-B924-420C-8633-3C7303F629D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4F48243-B924-420C-8633-3C7303F629D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4F48243-B924-420C-8633-3C7303F629D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4F48243-B924-420C-8633-3C7303F629D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
