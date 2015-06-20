@@ -1,0 +1,13 @@
+WHATEVER=8
+B=1
+AND=4
+NUM=6
+STARS=5
+COMP_FILES=3
+COLON=7
+NL=2
+'.*?'=8
+'and'=4
+':'=7
+'*****'=5
+'Comparing files'=3
