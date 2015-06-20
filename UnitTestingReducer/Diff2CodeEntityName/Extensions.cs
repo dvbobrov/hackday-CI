@@ -35,5 +35,10 @@
 
             return Regex.IsMatch(line, @"\w+\s+\w+\s*\(.*\)") && !line.Contains("await");
         }
+
+        public static bool IsNullOrEmpty(this string line)
+        {
+            return string.IsNullOrEmpty(line);
+        }
     }
 }

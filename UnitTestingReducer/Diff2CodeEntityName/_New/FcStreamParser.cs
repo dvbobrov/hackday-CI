@@ -1,84 +1,105 @@
-﻿namespace Diff2CodeEntityName._New
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Diff2CodeEntityName._New
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-
-    using Antlr4.Runtime;
-    using Antlr4.Runtime.Tree;
-
-    internal class FcStreamParser
+    class FcStreamParser
     {
-        public IEnumerable<Diff> Process(Stream stream)
-        {
-            var lexer = new FcOutputLexer(new AntlrInputStream(stream));
-            var tokens = new CommonTokenStream(lexer);
-            var parser = new FcOutputParser(tokens);
+        readonly List<Diff> _allFilesDiff = new List<Diff>();
 
-            FcOutputParser.FcOutputContext context = parser.fcOutput();
-            return context.Accept(new SingleDiffVisitor());
+        public IEnumerable<Diff> Process(StreamReader reader)
+        {
+            ParseStream(reader);
+
+            return _allFilesDiff;
         }
-    }
 
-    class SingleDiffVisitor : FcOutputBaseVisitor<IEnumerable<Diff>>
-    {
-        public override IEnumerable<Diff> VisitSingleDiff(FcOutputParser.SingleDiffContext context)
+        private void ParseStream(StreamReader reader)
         {
-            if (context.children.Count > 3 && context.children[3] is FcOutputParser.SingleDiffItemContext)
-            {
-                var diff = new Diff();
-                SetNames(context.children[3], diff);
+            Diff fileDiff = null;
+            string blockOfDiffSeparator = "*****";
 
-                foreach (var item in context.children.Skip(3).Cast<FcOutputParser.SingleDiffItemContext>())
+            bool leftFileIsCurrent = false;
+
+            do
+            {
+                string plainTextLine = reader.ReadLine();
+
+                if (string.IsNullOrEmpty(plainTextLine))
                 {
-                    var leftDiffList = item.GetChild<FcOutputParser.DiffLineListContext>(0);
-                    var rightDiffList = item.GetChild<FcOutputParser.DiffLineListContext>(1);
-
-                    HandleDiffList(leftDiffList, diff.AddLeft);
-                    HandleDiffList(rightDiffList, diff.AddRight);
+                    continue;
                 }
-                
-                yield return diff;
-            }
-        }
 
-        private static void SetNames(IParseTree item, Diff diff)
-        {
-            IParseTree firstNameToken = item.GetChild(1);
-            string firstName = firstNameToken.GetText();
-            diff.Left = firstName;
-
-            IParseTree secondNameToken = item.GetChild(5);
-            string secondName = secondNameToken.GetText();
-            diff.Right = secondName;
-        }
-
-        private static void HandleDiffList(FcOutputParser.DiffLineListContext diffList, Action<int> handler)
-        {
-            foreach (var diffLine in diffList.children.Cast<FcOutputParser.DiffLineContext>())
-            {
-                handler(int.Parse(diffLine.GetChild(0).GetText()));
-            }
-        }
-
-        protected override IEnumerable<Diff> AggregateResult(IEnumerable<Diff> aggregate, IEnumerable<Diff> nextResult)
-        {
-            if (aggregate != null)
-            {
-                foreach (Diff fileDiff in aggregate)
+                if (plainTextLine.StartsWith("Comparing files", true, CultureInfo.InvariantCulture) || reader.EndOfStream)
                 {
-                    yield return fileDiff;
-                }
-            }
+                    if (fileDiff != null)
+                    {
+                        _allFilesDiff.Add(fileDiff);
+                    }
 
-            if (nextResult != null)
-            {
-                foreach (Diff fileDiff in nextResult)
-                {
-                    yield return fileDiff;
+                    if (!reader.EndOfStream)
+                    {
+                        fileDiff = new Diff();
+                    }
                 }
-            }
+                else if (plainTextLine.StartsWith(blockOfDiffSeparator))
+                {
+                    string fileName = plainTextLine.Substring(blockOfDiffSeparator.Length).Trim();
+
+                    if (fileName.IsNullOrEmpty())
+                    {
+                        continue;
+                    }
+                    else if (fileDiff.LeftFileName.IsNullOrEmpty())
+                    {
+                        fileDiff.LeftFileName = fileName;
+                        leftFileIsCurrent = true;
+                    }
+                    else if (fileDiff.RightFileName.IsNullOrEmpty())
+                    {
+                        fileDiff.RightFileName = fileName;
+                        leftFileIsCurrent = false;
+                    }
+                    else if (string.Compare(fileDiff.LeftFileName, fileName, true) == 0)
+                    {
+                        leftFileIsCurrent = true;
+                    }
+                    else
+                    {
+                        leftFileIsCurrent = false;
+                    }
+
+                }
+                else if (Regex.IsMatch(plainTextLine, @"\s*\d+:")) // e.g. " 13: "
+                {
+                    try
+                    {
+                        int lineNumber = Int32.Parse(Regex.Match(plainTextLine, @"\d+:").Value.Replace(":", ""));
+                        // e.g. "13:" one digit at least and one colon
+
+                        if (leftFileIsCurrent)
+                        {
+                            fileDiff.AddLeft(lineNumber);
+                        }
+                        else
+                        {
+                            fileDiff.AddRight(lineNumber);
+                        }
+
+                    }
+                    catch (FormatException)
+                    {
+                        //do nothing
+                    }
+                }
+
+            } while (!reader.EndOfStream);
         }
     }
 }

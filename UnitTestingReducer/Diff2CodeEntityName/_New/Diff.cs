@@ -14,9 +14,9 @@
             _rightLines = new HashSet<int>();
         }
 
-        public string Left { get; set; }
+        public string LeftFileName { get; set; }
 
-        public string Right { get; set; }
+        public string RightFileName { get; set; }
 
         public ISet<int> LeftLines
         {
