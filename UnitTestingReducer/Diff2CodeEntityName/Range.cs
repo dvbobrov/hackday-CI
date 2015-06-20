@@ -66,5 +66,14 @@ namespace Diff2CodeEntityName
             return this.IsValid() && Range.IsValid() && this.ContainsValue(Range.Minimum) &&
                    this.ContainsValue(Range.Maximum);
         }
+
+        public bool Intersects(Range<T> range)
+        {
+            return this.IsValid() && range.IsValid() &&
+                   (this.ContainsValue(range.Minimum) ||
+                    this.ContainsValue(range.Maximum) ||
+                    range.ContainsValue(this.Minimum) ||
+                    range.ContainsValue(this.Maximum));
+        }
     }
 }

@@ -18,19 +18,19 @@
 
         public string Right { get; set; }
 
-        public IReadOnlyCollection<int> LeftLines
+        public ISet<int> LeftLines
         {
             get
             {
-                return (IReadOnlyCollection<int>)_leftLines;
+                return _leftLines;
             }
         }
 
-        public IReadOnlyCollection<int> RightLines
+        public ISet<int> RightLines
         {
             get
             {
-                return (IReadOnlyCollection<int>)_rightLines;
+                return _rightLines;
             }
         }
 
