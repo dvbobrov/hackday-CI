@@ -4,42 +4,42 @@
 
     public class Diff
     {
-        private readonly ISet<int> _leftLines;
+        private readonly ISet<uint> _leftLines;
 
-        private readonly ISet<int> _rightLines;
+        private readonly ISet<uint> _rightLines;
 
         public Diff()
         {
-            _leftLines = new HashSet<int>();
-            _rightLines = new HashSet<int>();
+            _leftLines = new HashSet<uint>();
+            _rightLines = new HashSet<uint>();
         }
 
-        public string Left { get; set; }
+        public string LeftFileName { get; set; }
 
-        public string Right { get; set; }
+        public string RightFileName { get; set; }
 
-        public IReadOnlyCollection<int> LeftLines
+        public IReadOnlyCollection<uint> LeftLines
         {
             get
             {
-                return (IReadOnlyCollection<int>)_leftLines;
+                return (IReadOnlyCollection<uint>)_leftLines;
             }
         }
 
-        public IReadOnlyCollection<int> RightLines
+        public IReadOnlyCollection<uint> RightLines
         {
             get
             {
-                return (IReadOnlyCollection<int>)_rightLines;
+                return (IReadOnlyCollection<uint>)_rightLines;
             }
         }
 
-        public void AddLeft(int line)
+        public void AddLeft(uint line)
         {
             _leftLines.Add(line);
         }
 
-        public void AddRight(int line)
+        public void AddRight(uint line)
         {
             _rightLines.Add(line);
         }

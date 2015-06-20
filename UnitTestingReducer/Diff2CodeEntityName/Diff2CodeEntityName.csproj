@@ -49,21 +49,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Range.cs" />
     <Compile Include="_New\Diff.cs" />
-    <Compile Include="_New\FcOutput.g4.lexer.cs">
-      <DependentUpon>FcOutput.g4</DependentUpon>
-    </Compile>
-    <Compile Include="_New\FcOutput.g4.parser.cs">
-      <DependentUpon>FcOutput.g4</DependentUpon>
-    </Compile>
     <Compile Include="_New\FcStreamParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Antlr4 Include="_New\FcOutput.g4">
-      <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>Diff2CodeEntityName._New</CustomToolNamespace>
-      <Listener>False</Listener>
-    </Antlr4>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
