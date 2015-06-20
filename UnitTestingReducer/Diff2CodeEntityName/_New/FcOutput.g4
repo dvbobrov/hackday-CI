@@ -25,7 +25,7 @@ diffLineList : diffLine*
 diffLine : NUM COLON restOfLine NL
 ;
 
-restOfLine : ~NL* 
+restOfLine : ~NL*
 ;
 
 /*
