@@ -19,7 +19,7 @@
         {
             var outputMethods = new HashSet<string>();
             var parser = new FcStreamParser();
-            using (var s = Console.OpenStandardInput())
+            using (var s = new StreamReader(Console.OpenStandardInput()))
             {
                 foreach (Diff diff in parser.Process(s))
                 {
