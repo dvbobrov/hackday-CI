@@ -17,35 +17,16 @@
     {
         private static void Main(string[] args) 
         {
-            var diff = new Diff
-                           {
-                               LeftFileName = "Foo.cs",
-                               RightFileName = "Foo1.cs"
-                           };
-
-            diff.AddLeft(16);
-            diff.AddLeft(17);
-            diff.AddLeft(18);
-            diff.AddLeft(25);
-            diff.AddLeft(26);
-            diff.AddLeft(30);
-            diff.AddLeft(31);
-            diff.AddLeft(32);
-
-            diff.AddRight(16);
-            diff.AddRight(17);
-            diff.AddRight(18);
-            diff.AddRight(19);
-            diff.AddRight(26);
-            diff.AddRight(27);
-            diff.AddRight(28);
-            diff.AddRight(32);
-            diff.AddRight(33);
-            diff.AddRight(34);
-
             var outputMethods = new HashSet<string>();
-            ProcessFile(diff.LeftFileName, diff.LeftLines, outputMethods);
-            ProcessFile(diff.RightFileName, diff.RightLines, outputMethods);
+            var parser = new FcStreamParser();
+            using (var s = Console.OpenStandardInput())
+            {
+                foreach (Diff diff in parser.Process(s))
+                {
+                    ProcessFile(diff.LeftFileName, diff.LeftLines, outputMethods);
+                    ProcessFile(diff.RightFileName, diff.RightLines, outputMethods);
+                }
+            }
         }
 
         private static void ProcessFile(string fileName, ISet<int> lines, HashSet<string> outputMethods)

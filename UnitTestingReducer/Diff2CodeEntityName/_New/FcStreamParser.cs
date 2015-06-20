@@ -36,17 +36,10 @@ namespace Diff2CodeEntityName._New
                     continue;
                 }
 
-                if (plainTextLine.StartsWith("Comparing files", true, CultureInfo.InvariantCulture) || reader.EndOfStream)
+                if (plainTextLine.StartsWith("Comparing files", true, CultureInfo.InvariantCulture))
                 {
-                    if (fileDiff != null)
-                    {
-                        _allFilesDiff.Add(fileDiff);
-                    }
-
-                    if (!reader.EndOfStream)
-                    {
-                        fileDiff = new Diff();
-                    }
+                    fileDiff = new Diff();
+                    _allFilesDiff.Add(fileDiff);
                 }
                 else if (plainTextLine.StartsWith(blockOfDiffSeparator))
                 {
